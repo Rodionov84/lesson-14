@@ -1,0 +1,24 @@
+form
+{
+    display: inline-block;
+}
+table {
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+table td, table th {
+    border: 1px solid #ccc;
+    padding: 5px;
+}
+table th {
+    background: #eee;
+}
+
+.done
+{
+    color: green;
+}
+.inProcess
+{
+    color: chocolate;
+}
