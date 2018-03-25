@@ -2,6 +2,8 @@
 @session_start();
 include("connect.php");
 
+
+
 if( !isset( $_SESSION["auth"] ) )
 {
     include("auth.php");
@@ -57,7 +59,7 @@ if( isset( $_POST["set_responsible"] ) )
 else if( isset( $_POST["id"] ) )
 {
     $id = intval($_POST["id"]);
-    $description = $_POST["description"];
+    $description = dataCheck($_POST["description"]);
 
     if( $id == 0 )
     {
@@ -119,7 +121,7 @@ else if( isset( $_POST["id"] ) )
             <tbody>
     <?php
     $sort = $sort != "" ? " ORDER BY `" . $sort . "`" : "";
-
+ //   var_dump($sort);
     $sql = "SELECT `tasks2`.*, `users_author`.`login` AS `author_login`, `users_responsible`.`login` AS `responsible_login`
 FROM `tasks2`
 LEFT JOIN `users` AS `users_author` ON `users_author`.`id` = `tasks2`.`author`
@@ -159,7 +161,7 @@ WHERE `tasks2`.`author` = " . $_SESSION["auth"] . $sort;
                 $row["is_done"] ? "" : "<a href='" . $_SERVER['SCRIPT_NAME'] . "?action=done&id=" . $row["id"] . "''>Выполнить</a>",
                 $_SERVER['SCRIPT_NAME'],
                 $row["id"],
-                $row["responsible"] ? $row["responsible_login"] : "Вы",
+                $row["responsible"] ? $row["responsible_login"] : $row["author_login"],
                 $row["author_login"],
                 $row["id"],
                 $users
@@ -185,7 +187,8 @@ WHERE `tasks2`.`author` = " . $_SESSION["auth"] . $sort;
             </thead>
             <tbody>
             <?php
-    $sort = $sort != "" ? " ORDER BY `" . $sort . "`" : "";
+    //$sort = $sort != "" ? $sort : "";
+   // var_dump($sort);
 
     $sql = "SELECT `tasks2`.*, `users_author`.`login` AS `author_login`, `users_responsible`.`login` AS `responsible_login`
 FROM `tasks2`
@@ -195,6 +198,7 @@ WHERE `tasks2`.`responsible` = " . $_SESSION["auth"] . $sort;
     $query = $db->query($sql);
 
     if( $query->rowCount() ) {
+         //   var_dump($query);
         foreach ($query as $row) {
             printf("<tr><td>%s</td>
                                     <td>%s</td><td class='%s'>%s</td>

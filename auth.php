@@ -8,16 +8,16 @@ $login = "";
 
 if( isset( $_POST["login"] ) )
 {
-    $login = $_POST["login"];
+    $login = dataCheck($_POST["login"]);
     $password = $_POST["password"];
 
     if( strlen( $login ) < 3 )
     {
-        $msg .= "Некорректная длинна логина. ";
+        $msg .= "Некорректная длина логина. ";
     }
     if( strlen( $password ) < 5 )
     {
-        $msg .= "Некорректная длинна пароля. ";
+        $msg .= "Некорректная длина пароля. ";
     }
 
     if( $msg == "" )
